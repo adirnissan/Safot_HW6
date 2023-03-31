@@ -326,7 +326,7 @@ conversion between strings and chars
 ```sml
 str #"0";
 
-String.sub("hello", 0);
+String.sub ("hello", 0);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
@@ -358,7 +358,7 @@ The names `true` and `false` are not keywords; they are predefined identifiers!
 
 ---
 
-### tuples - cartesian product type
+### tuples - Cartesian product type
 
 * N-tuple whose components are `x1`, ..., `xn`:
 
@@ -449,10 +449,10 @@ if x < y then x*x else 0;
 * *else* is mandatory.
 ---
 
-### mapping - functions
+### Mapping - functions
 
 ```sml
-fun sq(x: int) = x*x;
+fun sq (x: int) = x*x;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
@@ -463,14 +463,14 @@ fun sq(x: int) = x*x;
 
 <!--vert-->
 
-### functions
+### Functions
 
 * The result of the function is the result of evaluating the **expression** of the function body with the actual parameter.
 * `int->int` is the standard mathematical notation for a function type that takes an integer and returns an integer.
 
 ---
 
-### applying a function
+### Applying a Function
 
 * Simple function call
 
@@ -504,7 +504,7 @@ fun sq(x: int) = x*x;
 
 ---
 
-### arguments and results
+### Arguments and Results
 
 * Every function has one argument and one result
 * Any type can be passed/returned!!!
@@ -513,7 +513,7 @@ fun sq(x: int) = x*x;
 ```sml
 val a = (3.0, 4.0);
 
-fun lengthvec (x:real, y:real) = Math.sqrt(x*x + y*y);
+fun lengthvec (x:real, y:real) = Math.sqrt (x*x + y*y);
 
 lengthvec a;
 
@@ -523,7 +523,7 @@ lengthvec (5.0, 12.0);
 
 ---
 
-### Functions as values
+### Functions as Values
 
 Anonymous functions with `fn` notation
 
@@ -545,12 +545,12 @@ val sq = fn x:int => x*x;
 
 ---
 
-### returning functions
+### Returning a Function as Value
 
 * Functions can also be __returned__ from other functions
 
     ```sml
-    fun inttwice(f: (int->int)) =
+    fun inttwice (f: int->int) =
         fn x => f (f x);
     ```
     <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
@@ -576,7 +576,7 @@ it 3;
 
 ---
 
-### type inference
+### Type Inference
 
 ML deduces the types in expressions
 
@@ -594,7 +594,7 @@ fun facti (n, p) =
 
 ---
 
-### type constraints
+### Type Constraints
 
 * Certain functions are overloaded, e.g. `abs`, `+`, `-`, `~`, `*`, `<`
 * The type of an overloaded function is determined from context, or is set to `int` by default
@@ -602,41 +602,41 @@ fun facti (n, p) =
 
 ---
 
-###  type inference Exercise
+###  Type Inference Exercise
 what will be printed for the following definitions of `min`?
 
 <!--vert-->
 
 ```sml
-fun min(x, y) = if x < y then x else y;
+fun min (x, y) = if x < y then x else y;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
 ```sml
-fun min(x:real,y) = if x < y then x else y;
+fun min (x:real, y) = if x < y then x else y;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
 ```sml
-fun min(x:string,y) = if x < y then x else y;
+fun min (x:string, y) = if x < y then x else y;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
 ```sml
-fun min(x,y):real = if x < y then x else y;
+fun min (x,y) : real = if x < y then x else y;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
 ```sml
-fun min(x,y) = if x < y then x:real else y;
+fun min (x,y) = if x < y then x:real else y;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
@@ -656,13 +656,13 @@ without using type annotations
 
 ---
 
-### polymorphic type checking
+### Polymorphic Type Checking
 
 |                           |        | flexibility | security |
-|:-------------------------:|:------:|:-----------:|:--------:|
-|        Weakly typed       |  lisp  |      ✔      |          |
-|       Strongly typed*     | Pascal |             |     ✔    |
-| Polymorphic type checking |   ML   |      ✔      |     ✔    |
+| :-----------------------: | :----: | :---------: | :------: |
+|       Weakly typed        |  Lisp  |      ✔      |          |
+|      Strongly typed*      | Pascal |             |    ✔     |
+| Polymorphic type checking |   ML   |      ✔      |    ✔     |
 
 As a bonus - in ML most types are inferred automatically 😎
 
@@ -670,7 +670,7 @@ NOTE: Pascal has type punning so its not as strongly typed as ML
 
 ---
 
-### polymorphic function definitions
+### Polymorphic Function Definitions
 
 * In case type inference leaves some types completely unconstrained then the definition is polymorphic.
 * A polymorphic type contains a type variable, e.g. 'a, 'b
@@ -689,7 +689,7 @@ fun pair (x,y) = (y, x);
 ### functions as values - the polymorphic case
 
 <!--vert-->
-### Polymorfic functions Excercise
+### Polymorphic Functions Exercise
 What will be printed?
 
 ```sml
@@ -698,7 +698,7 @@ fun ident x = x;
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
-### Polymorfic functions Excercise
+### Polymorphic Functions Exercise
 What will be printed?
 
 ```sml
@@ -708,13 +708,13 @@ fun twice f = fn x => f (f x);
 
 <!--vert-->
 
-### Polymorfic functions Excercise
+### Polymorphic Functions Exercise
 What will be printed?
 
 ```sml
 fun twice f = fn x => f (f x);
 twice (fn x => x * x);
-it(2);
+it 2;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
@@ -733,13 +733,13 @@ twice ident;
 You usually may ignore it. or use a workaround:
 
 ```sml
-fn x => (twice ident) (x);
+fn x => twice ident (x);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 ---
 
-### functional vs. imperative programming
+### Functional vs. Imperative Programming
 
 * Imperative - using commands to change the state
 * Functional - stateless. using expressions recursively to calculate the result
@@ -763,7 +763,7 @@ def gcd(m: int, n: int) -> int:
 A functional program in Standard ML:
 
 ```sml
-fun gcd(m,n) = if m=0 then n else gcd(n mod m, m);
+fun gcd (m,n) = if m=0 then n else gcd (n mod m, m);
 ```
 
 Which one is more efficient? 🧐
