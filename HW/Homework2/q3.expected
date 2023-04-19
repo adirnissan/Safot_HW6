@@ -5,4 +5,4 @@ val is_alive = fn :
   cell * cell * cell -> cell * cell * cell -> cell * cell * cell -> cell
 - val test_1 = "Passed" : string
 val test_2 = "Passed" : string
-
+- 
