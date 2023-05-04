@@ -42,7 +42,7 @@ Sometimes we don't really know what to do with the error, so we'll simply return
 
 ### exceptions usage
 
-in pseudo code:
+In pseudo code:
 
 ```sml
 fun inner = do_calculation
@@ -169,7 +169,7 @@ fun len l = 1 + len (tl l) handle Empty => 0;
 Exp_0 handle Cons1 x => Exp_1
 ```
 
-* Assume `Exp_0` evaluates to some `V` (which is either a value or an exception packet), then the expressions evaluates to:
+* Assume `Exp_0` evaluates to some `V` (which is either a value or an exception packet), then the expression evaluates to:
   * `Exp_1` - in case `V` is `raise Cons1 x`
   * `V` - otherwise (`V` may be either a normal value or a non-matching raised exception)
 
@@ -183,7 +183,7 @@ Exp_0 handle Cons1 x => Exp_1
 
 * The expression `raise Exp` is of type `'a`
 * It is **not** an expression of type `exn`
-* This is meant simply to restrict the other parts of the expression any further.
+* This is necessary to avoid restricting the other parts of the expression.
 
 ```sml
 fun throw _ = raise Empty;
