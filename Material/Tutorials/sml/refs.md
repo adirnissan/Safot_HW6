@@ -89,6 +89,10 @@ val ! = fn : 'a ref -> 'a
 ```sml
 fun swap x y =
     (x := !x + !y ; y := !x - !y ; x := !x - !y);
+
+val x = ref 1 and y = ref 2;
+swap x y;
+(!x, !y);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
@@ -144,12 +148,16 @@ type (''a, 'b) memoizer = {max_size: int, memory: (''a * 'b) list ref};
 
 ```sml
 fun memoizer_put (memo: (''a, 'b) memoizer) x y =
-    #memory(memo) :=
-        (if length (!(#memory memo)) < #max_size memo then
-            !(#memory memo)
-        else
-            tl (!(#memory memo)))
-        @ [(x, y)];
+	let 
+      val state = #memory(memo)
+    in
+      state :=
+          (if length (!state) < #max_size memo then
+              !(state)
+          else
+              tl (!state))
+          @ [(x, y)]
+    end;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
