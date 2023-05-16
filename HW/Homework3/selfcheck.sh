@@ -24,6 +24,8 @@ if [ -d "$tmpdir" ]
 fi
 mkdir "$tmpdir" &> /dev/null
 
+yes | apt install zip &> /dev/null
+
 unzip "$1" -d "$tmpdir" &> /dev/null
 if [[ $? != 0 ]]; then
 	echo "Unable to unzip submission file!"
