@@ -4,15 +4,66 @@
 
 ---
 
-### basic constructs
+### What is Prolog?
+
+* Prolog - **Pro**gramming in **Log**ic.
+* A compiled, *Untyped*, *declarative* language.
+* Originally developed for AI applications.
+* First released in the 1970s.
 
 <!--vert-->
 
-the basic constructs of prolog are terms and statements
+### Logic/Declarative Programming
+
+Common use cases include:
+* Database queries.
+* Rule-based systems.
+* Automated Reasoning.
+
+In general - any problem that can be easily expressed in terms of logic or a set of constraints.
 
 <!--vert-->
 
-#### terms - atoms
+### Advantages
+
+* Concise and readable code.
+* Easy to express complex problems.
+* Modular and Extensible.
+
+<!--vert-->
+
+### Disadvantages
+
+* Not suitable for all problems.
+* Usually not as performant as other languages.
+
+---
+
+### Using Prolog
+
+A Prolog program consists of a set of *facts* and *rules*. Given a program, we can make *queries* about these rules using a REPL.
+
+In this class we will use *Swi-Prolog*.
+
+<!--vert-->
+
+### Typical Workflows
+
+Usually we will use Prolog in one of two ways:
+1. Open the REPL over a program and make queries.
+1. Dynamically add facts and rules (or even load programs) using the REPL.
+
+---
+
+### Terms
+
+Terms are the basic building blocks of Prolog programs.
+
+Analogous to *expressions* in other languages.
+
+<!--vert-->
+
+### terms - atoms
 
 the simplest term is an **atom**, the following are atoms:
 
@@ -25,24 +76,24 @@ $<@
 
 <!--vert-->
 
-an **atom** is
+### String atoms
 
-* a string of letters, digits, and an underscore starting with a **lower-case letter**: `anna` `x_25` `nil`
-* a string of special characters (`+ - * / < > = : . & _ ~`): `$<@` `<---->` `.:.`
-* a string of characters enclosed in single quotes: `'Tom'` `'2A$'`
-
-<!--vert-->
-
-#### terms - numbers
-
-* integers: `123` `-42`
-* real numbers: `3.14` `-0.573` `2.4e3`
+* A string of letters, digits, and an underscore starting with a **lower-case letter**: `anna` `x_25` `nil`
+* A string of special characters (`+ - * / < > = : . & _ ~`): `$<@` `<---->` `.:.`
+* A string of characters enclosed in single quotes: `'Tom'` `'2A$'`
 
 <!--vert-->
 
-#### terms - variables
+### Numeric atoms
 
-a **variable** is a string of letters, digits and an underscore starting with an upper-case letter or an underscore
+* Integers: `123` `-42`
+* Real numbers: `3.14` `-0.573` `2.4e3`
+
+<!--vert-->
+
+#### Variables
+
+A **variable** is a string of letters, digits and an underscore starting with an upper-case letter or an underscore
 
 ```prolog
 X_25
@@ -51,42 +102,32 @@ _result
 
 <!--vert-->
 
-#### compound terms
+### compound terms
 
-a **compound term** comprises a functor and arguments
+A **compound term** comprises a *functor* and *arguments*.
 
 ```prolog
 course(236319, pl)
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-a functor `f` of arity `n` is denoted `f/n`
+A functor `f` of arity `n` is denoted `f/n`.
 
 <!--vert-->
 
-#### terminology
-
-* a term is **ground** (קונקרטי) if it contains no variables
-* a **goal** is an atom or a compound term
-* a **predicate** (פרדיקט) is a functor for which a list of clauses is defined
-* a **clause** (פסוקית) is a fact or a rule
-
-<!--vert-->
-
-#### facts
-
-a **fact** (עובדה) is a kind of statement
+A **fact** is a term that we define to be true in our program.
 
 ```prolog
 eats(bunny, carrot).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-this fact states that the **predicate** `eats` holds for the atoms `bear` and `honey`
+This fact states that the **predicate** `eats` holds for the atoms `bunny` and `carrot` terms.
 
 <!--vert-->
 
-facts can have any arity
+
+Facts can have any arity:
 
 ```prolog
 summer.
@@ -97,7 +138,7 @@ plus(2, 3, 5).
 
 <!--vert-->
 
-a finite set of facts constitutes a program
+A finite set of facts constitutes a program:
 
 ```prolog
 mammal(rat).
@@ -112,29 +153,29 @@ eats(salmon, warm).
 
 <!--vert-->
 
-facts can contain variables
+Facts can contain variables:
 
 ```prolog
 likes(X, course236319).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" --> 
 
-variables are universally quantified
+Variables are universally quantified, so this fact is equivalent to:
 
-$$\forall X,likes(X, course236319)$$
+$$\forall X: likes(X, course236319)$$
 
 <!--vert-->
 
-#### queries
+### queries
 
-a **query** (שאילתה) is a conjunction of goals
+A **query** is a conjunction of goals:
 
 ```prolog
 ?- eats(X, salmon), eats(X, honey).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" --> 
 
-variables are existentially quantified
+Variables are existentially quantified, so this query is equivalent to:
 
 $$\exists X,eats(X, salmon) \land eats(X, honey)$$
 
@@ -142,7 +183,7 @@ $$\exists X,eats(X, salmon) \land eats(X, honey)$$
 
 #### rules
 
-a **rule** (חוק, כלל) is a statement which enables us to define new relationships in terms of existing ones
+A **rule** is a statement which enables us to define new relationships in terms of existing ones:
 
 ```prolog
 predicate(term1, ..., termN) :- goal1, ..., goalN.
@@ -169,19 +210,26 @@ survival_dependency(X, Y) :-
 
 ---
 
-### writing Prolog programs
+### dynamically loading programs
 
-* create a file named `prog.pl`
-* write clauses in `prog.pl`
-* enter the prolog interpreter
-* type `consult(prog.pl)`
-* query the interpreter
+Given a program in a file `prog.pl` we can load it into the REPL using `consult/1`:
+
+```prolog
+?- consult('prog.pl').
+/* or */
+?- consult(prog).
+```
+
+Also possible using brackets:
+
+```prolog
+?- [prog].
+```
 
 <!--vert-->
+### dynamic rules
 
-#### dynamic clauses
-
-you can add clauses dynamically
+You can add clauses dynamically:
 
 ```prolog
 :- assertz(eats(bear, tuna)).
@@ -198,11 +246,17 @@ you can add clauses dynamically
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-`asserta` asserts the clause as first clause of the predicate while `assertz` asserts it as last clause
+`asserta` asserts the clause as first clause of the predicate while `assertz` asserts it as last clause.
 
 <!--vert-->
 
-dynamically remove a clause using `retract/1`
+### dynamic rules
+
+Note that facts and rules from a compiled or loaded program are not dynamic by default, so you cannot add to them using assertions.
+
+<!--vert-->
+
+Dynamically remove a clause using `retract/1`:
 
 ```prolog
 :- assertz(q(a)).
@@ -223,7 +277,7 @@ dynamically remove a clause using `retract/1`
 
 <!--vert-->
 
-dynamically remove clauses using `retractall/1`
+Dynamically remove all clauses using `retractall/1`:
 
 ```prolog
 :- assertz(q_2(a)).
@@ -245,7 +299,7 @@ dynamically remove clauses using `retractall/1`
 
 <!--vert-->
 
-dynamically remove a predicate using `abolish/1`
+Dynamically remove a predicate using `abolish/1`:
 
 ```prolog
 :- assertz(p(a)).
@@ -265,27 +319,16 @@ dynamically remove a predicate using `abolish/1`
 
 ---
 
-### meaning of a prolog program
-
-* declarative meaning
-  * the inference algorithm is an implementation detail
-  * not always easy to achieve
-* procedural meaning
-  * but thinking procedurally makes it harder to come up with an elegant solution
-  * beats the purpose of the paradigm
-
----
-
 ### matching
 
-two terms match if:
+Two terms match if:
 
-* they are identical
-* the variables in both terms can be instantiated to make the terms identical
+* They are identical.
+* The variables in both terms can be instantiated to make the terms identical.
 
 <!--vert-->
 
-the operator `=` performs matching
+The `=` operator performs matching
 
 ```prolog
 ?- course(N, S, 95) = course(X, fall, G).
@@ -303,23 +346,23 @@ the operator `=` performs matching
 
 <!--vert-->
 
-#### matching rules
+### matching rules
 
-terms `S` and `T` match if:
+Terms `S` and `T` match if:
 
-* `S` and `T` are the same atom
-* `S` and `T` are the same number
-* if one is a variable it's instantiated to the other
-* if `S` and `T` are compound terms, they match iff:
-  * they have the same functor and arity
-  * all their corresponding arguments match
-  * the variable instantiations are compatible
+* `S` and `T` are the same atom.
+* `S` and `T` are the same number.
+* If one is a variable which is instantiated to the other.
+* If `S` and `T` are compound terms, they match iff:
+  * They have the same functor and arity.
+  * All their corresponding arguments match.
+  * The variable instantiations are compatible.
 
 <!--vert-->
 
-#### geometric example
+### geometric example
 
-use compound terms to represent geometric shapes
+Use compound terms to represent geometric shapes.
 
 ```prolog
 point(1, 1)
@@ -328,6 +371,8 @@ triangle( point(4, 2), point(6, 4), point(7, 1) )
 ```
 
 <!--vert-->
+
+### geometric example
 
 ```prolog
 ?- triangle(point(1, 1), A, point(2, 3))
@@ -338,9 +383,9 @@ triangle(X, point(4, Y), point(2, Z)).
 
 <!--vert-->
 
-#### matching as means of computation
+### matching as means of computation
 
-facts:
+Facts:
 
 ```prolog
 vertical(seg(
@@ -350,7 +395,7 @@ vertical(seg(
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-queries:
+Queries:
 
 ```prolog
 ?- vertical(seg(point(1, 1), point(1, 2))).
@@ -363,10 +408,10 @@ queries:
 
 ---
 
-### arithmetic
+### arithmetic operations
 
-* the operators `+ - * / div mod` are (infix) binary relations
-* but they are arithmetic operators after the operator `is`
+* The operators `+ - * / div mod` are (infix) binary relations.
+* But they are considered arithmetic operators after the operator `is`.
 
 ```prolog
 ?- X = 1 + 2.
@@ -377,7 +422,7 @@ queries:
 
 <!--vert-->
 
-#### comparison operators
+### comparison operators
 
 ```prolog
 X > Y
@@ -390,7 +435,7 @@ X =\= Y  % not equal
 
 <!--vert-->
 
-the comparison operators also force evaluation
+The comparison operators also force evaluation:
 
 ```prolog
 ?- 11 * 6 = 66.
@@ -403,8 +448,8 @@ the comparison operators also force evaluation
 
 #### `=` VS. `=:=`
 
-* `=` is used for matching and may instantiate variables
-* `=:=` causes an arithmetic evaluation of its operands and cannot instantiate variables
+* `=` is used for matching and may instantiate variables.
+* `=:=` causes an arithmetic evaluation of its operands and cannot instantiate variables.
 
 ```prolog
 ?- 1 + X = Y + 2.
@@ -415,7 +460,7 @@ the comparison operators also force evaluation
 
 <!--vert-->
 
-#### GCD
+#### Example - GCD
 
 ```prolog
 gcd(X, X, X).
@@ -442,15 +487,15 @@ gcd(X, Y, D) :-
 
 #### conjunction `,/2`
 
-the goal `(G1, G2)` succeeds if `G1` and `G2` succeed
+The goal `(G1, G2)` succeeds if `G1` and `G2` succeed.
 
 <!--vert-->
 
 #### disjunction `;/2`
 
-the goal `(G1 ; G2)` succeeds if `G1` or `G2` succeed
+The goal `(G1 ; G2)` succeeds if `G1` or `G2` succeed.
 
-defined as follows:
+Defined as follows:
 
 ```prolog
 (G1 ; G2) :- G1.
@@ -461,21 +506,21 @@ defined as follows:
 
 #### true
 
-the predicate `true/0` always succeeds
+The predicate `true/0` always succeeds.
 
 <!--vert-->
 
 #### false
 
-the predicates `false/0` and `fail/0` always fail
+The predicates `false/0` and `fail/0` always fail.
 
 <!--vert-->
 
 #### negation as failure
 
-* the negation predicate is `\+/1`
-* for known predicates, prolog works under a closed world assumption - if something can't be proved then it is false
-* it is not logical negation!
+* The negation predicate is `\+/1`.
+* It is not logical negation!
+* For known predicates, prolog works under a closed world assumption - if something can't be proved then it is false.
 
 <!--vert-->
 
@@ -493,7 +538,7 @@ person(cindy).
 
 <!--vert-->
 
-it might not work like you'd expect
+It might not work like you'd expect
 
 ```prolog
 ?- person(X).
@@ -505,7 +550,7 @@ it might not work like you'd expect
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-why doesn't prolog answer with `X = rick` or simply with `true`?
+Why doesn't prolog answer with `X = rick` or simply with `true`?
 
 <!--vert-->
 
@@ -516,7 +561,7 @@ why doesn't prolog answer with `X = rick` or simply with `true`?
 
 <!--vert-->
 
-`\+/1` allows for non-monotonic reasoning - a fact can become false by adding clauses to the database
+`\+/1` allows for non-monotonic reasoning - a fact can become false by adding clauses to the database:
 
 ```prolog
 illegal(murder).
@@ -538,7 +583,7 @@ illegal(theft).
 
 ### exercise - family tree
 
-you have a database with the following predicate
+Given a database with the following predicate:
 
 ```prolog
 parent(X, Y).  % X is Y's parent
@@ -552,7 +597,7 @@ parent(cain, enoch).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-define a predicate `grandparent(X)` that holds when `X` is a grandparent
+Define a predicate `grandparent(X)` that holds when `X` is a grandparent.
 
 <!--vert-->
 
@@ -574,9 +619,9 @@ grandparent(X) :- parent(X, Y), parent(Y, _).
 
 <!--vert-->
 
-define a predicate `nuclear(X, Y)` that holds when `X` and `Y` are in the same nuclear family
+Define a predicate `nuclear(X, Y)` that holds when `X` and `Y` are in the same nuclear family.
 
-a nuclear family consists of 2 parents and their common children
+A nuclear family (in our example) consists of 2 parents and their common children.
 
 <!--vert-->
 
@@ -609,12 +654,12 @@ nuclear(X, Y) :-
 
 ### exercise - binary trees
 
-we represent binary trees as terms:
+We represent binary trees as terms:
 
-* `nil` is the empty tree
-* `node(N, Tl, Tr)` is a tree node where `N` is some number and `Tl` and `Tr` are binary trees
+* `nil` is the empty tree.
+* `node(N, Tl, Tr)` is a tree node where `N` is some number and `Tl` and `Tr` are binary trees.
 
-define a predicate `tree_size(T, S)` such that `T` is a binary tree and `S` is its size
+Define a predicate `tree_size(T, S)` such that `T` is a binary tree and `S` is its size
 
 <!--vert-->
 
@@ -649,9 +694,9 @@ tree_size(node(_, Tl, Tr), S) :-
 
 <!--vert-->
 
-define a predicate `tree_max(T, M)` such that `T` is a binary tree and `M` is the max of the values of `T`'s nodes
+Define a predicate `tree_max(T, M)` such that `T` is a binary tree and `M` is the max of the values of `T`'s nodes.
 
-you may use the arithmetic function `max/2`
+You may use the arithmetic function `max/2`
 
 ```prolog
 ...
@@ -690,11 +735,9 @@ tree_max(node(N, Tl, Tr), M) :-
 
 <!--vert-->
 
-define a predicate `perfect_tree(T, H)` such that `T` is a perfect binary tree and `H` is its height
+A perfect binary tree is a binary tree in which all interior nodes have two children and all leaves have the same depth. Also, the value of each interior node is equal to its depth.
 
-a node's value should be its height
-
-a perfect binary tree is a binary tree in which all interior nodes have two children and all leaves have the same depth
+Define a predicate `perfect_tree(T, H)` such that `T` is a perfect binary tree and `H` is its height.
 
 <!--vert-->
 
