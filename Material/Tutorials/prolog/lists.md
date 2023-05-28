@@ -4,7 +4,9 @@
 
 ---
 
-a **list** is a sequence of any number of terms
+### Lists
+
+In Prolog, a **list** is a sequence of any number of terms, separated by commas and enclosed in square brackets:
 
 ```prolog
 [1, 2, 3]
@@ -14,23 +16,23 @@ a **list** is a sequence of any number of terms
 
 <!--vert-->
 
-a list is actually a pair of a head and a tail
+In fact, a list is actually a pair of a head and a tail (which is a list itself):
 
 ```prolog
 [Head | Tail]
 [A, B, C] = [A | [B | [C | []]]] = [A, B | [C]]
 ```
 
+> Kind of like SML lists.
+
 ---
+
+## Built-in list predicates
+<!--vert-->
 
 ### length/2
 
-```prolog
-length([], 0).
-length([_|Tail], N) :-
-    length(Tail, N1),
-    N is 1 + N1.
-```
+`length(L, N)` is satisfied when `L` is a list of length `N`.
 
 ```prolog
 ?- length([a, b, [c, d], e], N).
@@ -41,27 +43,22 @@ length([_|Tail], N) :-
 
 <!--vert-->
 
-### length with CLP(FD)
+### length/2
+
+`length/2` is implemented as follows:
 
 ```prolog
 length([], 0).
 length([_|Tail], N) :-
-    N #= N1 + 1,
-    length(Tail, N1).
+    length(Tail, N1),
+    N is 1 + N1.
 ```
-
----
-
-### list predicates
 
 <!--vert-->
 
-#### is_list/1 (predefined)
+### is_list/1
 
-```prolog
-...
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+`is_list(X)` is satisfied when `X` is a list.
 
 ```prolog
 ?- is_list(17).
@@ -69,7 +66,17 @@ length([_|Tail], N) :-
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+How would you implement this predicate?
+
+```prolog
+...
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
+
 <!--vert-->
+
+### is_list/1
 
 ```prolog
 is_list([]).
@@ -79,19 +86,25 @@ is_list([X|Xs]) :- is_list(Xs).
 
 <!--vert-->
 
-#### member/2 (predefined)
+### member/2
 
-```prolog
-...
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+`member(X, L)` is satisfied when `X` is a member of `L`.
 
 ```prolog
 ?- member(X, [17, 13, 2, 5]).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+How would you implement this predicate?
+
+```prolog
+...
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 <!--vert-->
+
+### member/2
 
 ```prolog
 member(X, [X|Xs]).
@@ -101,19 +114,25 @@ member(X, [Y|Ys]) :- member(X, Ys).
 
 <!--vert-->
 
-#### prefix/2
+### prefix/2
 
-```prolog
-...
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+`prefix(X, L)` is satisfied when `X` is a prefix of `L`.
 
 ```prolog
 ?- prefix(X, [a, b, c, d]).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+How would you implement this predicate?
+
+```prolog
+...
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 <!--vert-->
+
+### prefix/2
 
 ```prolog
 prefix([], L).
@@ -125,17 +144,23 @@ prefix([X|Xs], [X|Ys]) :- prefix(Xs, Ys).
 
 #### suffix/2
 
-```prolog
-...
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+`suffix(X, L)` is satisfied when `X` is a suffix of `L`.
 
 ```prolog
 ?- suffix(X, [1, 2, 3]).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+How would you implement this predicate?
+
+```prolog
+...
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 <!--vert-->
+
+#### suffix/2
 
 ```prolog
 suffix(Xs, Xs).
@@ -143,15 +168,17 @@ suffix(Xs, [Y|Ys]) :- suffix(Xs, Ys).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+---
+
+## List Exercises
+
+Implement the following (non built-in) predicates.
+
 <!--vert-->
 
 #### del/3
 
-```prolog
-del(X, L, R)
-```
-
-`R` is `L` without one of the occurrences of `X`
+`del(X, L, R)` is satisfied when `R` is `L` without one of the occurrences of `X`.
 
 ```prolog
 ...
@@ -165,15 +192,24 @@ del(X, L, R)
 
 <!--vert-->
 
+#### del/3
+
 ```prolog
 del(X, [X|Xs], Xs).
 del(X, [Y|Ys], [Y|Zs]) :- del(X, Ys, Zs).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+```prolog
+?- del(2, [1, 2, 3, 2, 3, 2], X).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 <!--vert-->
 
 #### insert/3
+
+`Insert(X, L, R)` is satisfied when `R` is `L` with an additional occurrence of `X`.
 
 ```prolog
 ...
@@ -187,14 +223,23 @@ del(X, [Y|Ys], [Y|Zs]) :- del(X, Ys, Zs).
 
 <!--vert-->
 
+#### insert/3
+
 ```prolog
 insert(X, L, R) :- del(X, R, L).
 ```
+```prolog
+?- insert(3, [1, 2, 3], X).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
 <!--vert-->
 
 #### append/3
+
+`append(X, Y, Z)` is satisfied when `Z` is the concatenation of `X` and `Y` (in that order).
 
 ```prolog
 ...
@@ -208,9 +253,16 @@ insert(X, L, R) :- del(X, R, L).
 
 <!--vert-->
 
+#### append/3
+
 ```prolog
 append([], Ys, Ys).
 append([X|Xs], Ys, [X|Zs]) :- append(Xs, Ys, Zs).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
+```prolog
+?- append([1, 2], [3, 4, 5], X).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
@@ -234,12 +286,16 @@ member(X, Xs) :- append(_, [X|_], Xs).
 
 #### sublist/2
 
+`sublist(X, Y)` is satisfied when `X` is a sublist of `Y`.
+
 ```prolog
 ...
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
 <!--vert-->
+
+#### sublist/2
 
 ```prolog
 sublist(Xs, Ys) :-
@@ -265,6 +321,8 @@ sublist(Xs, Ys) :-
 
 #### permutation/2
 
+`permutation(X, Y)` is satisfied when `X` is a permutation of `Y`.
+
 ```prolog
 ...
 ```
@@ -277,10 +335,17 @@ sublist(Xs, Ys) :-
 
 <!--vert-->
 
+#### permutation/2
+
 ```prolog
 permutation([], []).
 permutation([X|L], P) :-
     permutation(L, L1),
     insert(X, L1, P).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
+```prolog
+?- permutation([1, 2, 3], X).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
