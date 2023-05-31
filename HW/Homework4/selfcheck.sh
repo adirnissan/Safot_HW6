@@ -63,7 +63,7 @@ fi
 
 for test in "${test_files[@]}"
 do
-	wget "$hw4$test.in" "$hw4$test.expected" "${hw4}hw3_${test}_def.sml" &> /dev/null
+	wget "$hw4$test.in" "$hw4$test.expected" "${hw4}hw4_${test}_def.sml" &> /dev/null
 	sleep 3
 	if [ ! -f "$test.in" ] || [ ! -f "$test.expected" ] || [ ! -f "hw4_${test}_def.sml" ]; then
 		echo "Unable to download test $test!"
