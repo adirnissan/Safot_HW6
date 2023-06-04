@@ -168,6 +168,44 @@ suffix(Xs, [Y|Ys]) :- suffix(Xs, Ys).
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
+<!--vert-->
+
+#### nth0/3 and nth1/3
+
+`nth0(I, L, E)` is satisfied when `E` is the `I`'thelement of `L` starting with index 0.
+
+```prolog
+?- nth0(1, [1, 2, 3], X).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
+> `nth1/3` is the same as `nth0/3` but starts with index 1.
+
+<!--vert-->
+
+#### max_list/2 and min_list/2
+
+`max_list(L, M)` is satisfied when `M` is the maximum element of `L`.
+
+
+```prolog
+?- max_list([1, 2, 3], X).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
+> `min_list/2` is the same as `max_list/2` but for the minimum element.
+
+<!--vert-->
+
+#### flatten/2
+
+`flatten(L, F)` is satisfied when `F` is the (recursively) flattened version of `L`.
+
+```prolog
+?- flatten([1, [2, [3, 4], 5], 6], X).
+```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 ---
 
 ## List Exercises
