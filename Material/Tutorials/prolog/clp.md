@@ -6,20 +6,21 @@
 
 ### intro
 
-* `CLP(FD)` is a library
-* CLP = **C**onstraint **L**ogic **P**rogramming
-* FD = **F**inite **D**omains, namely integers
-* use it to solve a set of constraints over integers
+`CLP(FD)` is a library that help us use constraints over integer values.
+* CLP = **C**onstraint **L**ogic **P**rogramming.
+* FD = **F**inite **D**omains.
 
 <!--vert-->
 
-write in the interpreter:
+### usage
+
+in order to use `CLP(FD)`, write the following in the REPL:
 
 ```prolog
 use_module(library(clpfd)).
 ```
 
-or write the following at the top of a file:
+...or write the following at the top of a file:
 
 ```prolog
 :- use_module(library(clpfd)).
@@ -28,13 +29,9 @@ or write the following at the top of a file:
 
 ---
 
-### arithmetic constraints
+### comparison operators
 
-<!--vert-->
-
-#### comparison operators
-
-the comparison operators are almost the same but prefixed by `#`
+The comparison operators are almost the same but prefixed by `#`
 
 ```prolog
 X #> Y.
@@ -47,10 +44,12 @@ X #\= Y.
 
 <!--vert-->
 
+### comparison operators
+
 `X` and `Y` can be any arithmetic expression:
 
-* an integer value
-* a variable
+* An integer value.
+* A variable.
 * `-Expr`
 * `Expr1 @ Expr2` where `@` is replaced by `+` `*` `-` `^` `//` `div` `mod` `rem`
 * `abs(Expr)`
@@ -59,12 +58,15 @@ X #\= Y.
 
 <!--vert-->
 
-how are these different from the regular comparison operators?
+### comparison operators
+
+How are these different from the regular comparison operators?
 
 ```prolog
 ?- X + 2 =:= Y + X.
 
 ?- X + 2 #= Y + X.
+% Y = 2, X in inf..sup.
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
@@ -74,27 +76,34 @@ the `#`-operators don't require that any of the variables are instantiated
 
 ### domains
 
-`CLP(FD)` can give a domain as a solution
+`CLP(FD)` can give a domain as a solution:
 
 ```prolog
 ?- 0 #< X, X #< 5.
+% X in 1..4.
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
 <!--vert-->
 
-in a domain `sup` is for supremum and `inf` is for infimum
+### domains
+
+In a domain, `sup` is for supremum and `inf` is for infimum.
 
 ```prolog
 ?- 0 #< X.
+% X in 1..sup.
 
 ?- X #< 5.
+% X in inf..4.
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
 <!--vert-->
 
-we can use the `in` operator in our code
+### domains
+
+We can use the `in` operator in our code.
 
 ```prolog
 ?- X in 1..5.
@@ -103,20 +112,24 @@ we can use the `in` operator in our code
 
 <!--vert-->
 
+### domains
+
 `\/` is used for domains union
 
 ```prolog
 ?- X in 1..5, X #\= 2.
+% X in 1\/3..5.
 
 ?- X in 1\/2\/3.
+% X in 1..3.
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
 <!--vert-->
 
-#### labeling
+### labeling
 
-`indomain(X)` is used to successively bind `X` to all integers of its domain
+`indomain(X)` is used to successively bind `X` to all integers of its domain:
 
 ```prolog
 ?- X in 1..3, indomain(X).
@@ -125,7 +138,9 @@ we can use the `in` operator in our code
 
 <!--vert-->
 
-`indomain` must always terminate
+### labeling
+
+`indomain` must always terminate:
 
 ```prolog
 ?- X in 0..sup, indomain(X).
@@ -134,7 +149,9 @@ we can use the `in` operator in our code
 
 <!--vert-->
 
-`label` is just like `indomain` but for a list of variables
+### labeling
+
+`label` is just like `indomain` but for a list of variables:
 
 ```prolog
 ?- 0 #=< N, N #< 17, 0 #< A, 0 #< B, N * N #= A * A + B * B, label([N, A, B]).
@@ -145,7 +162,7 @@ we can use the `in` operator in our code
 
 ### question
 
-implement the predicate `change/2`. `change(S, L)` is true iff:
+Implement the predicate `change/2`. `change(S, L)` is true iff:
 
 * `S` is a positive integer
 * `L` is a **sorted** (descending) list made of the integers `1`, `5`, `10`
@@ -160,10 +177,10 @@ implement the predicate `change/2`. `change(S, L)` is true iff:
 
 <!--vert-->
 
-you can use the predicate `repeat/3`. `repeat(N, C, L)` is true iff:
+> Hint - you can use a helper predicate `repeat/3`. `repeat(N, C, L)` is true iff:
 
-* `N` is a conrete non-negative integer
-* `L` is a list of `N` `C`s
+* `N` is a conrete non-negative integer.
+* `L` is a list of `N` `C`s.
 
 <!--vert-->
 
