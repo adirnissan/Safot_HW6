@@ -172,7 +172,7 @@ suffix(Xs, [Y|Ys]) :- suffix(Xs, Ys).
 
 #### nth0/3 and nth1/3
 
-`nth0(I, L, E)` is satisfied when `E` is the `I`'thelement of `L` starting with index 0.
+`nth0(I, L, E)` is satisfied when `E` is the `I`'th element of `L` starting with index 0.
 
 ```prolog
 ?- nth0(1, [1, 2, 3], X).
@@ -266,6 +266,8 @@ del(X, [Y|Ys], [Y|Zs]) :- del(X, Ys, Zs).
 ```prolog
 insert(X, L, R) :- del(X, R, L).
 ```
+<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
+
 ```prolog
 ?- insert(3, [1, 2, 3], X).
 ```
