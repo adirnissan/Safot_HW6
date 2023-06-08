@@ -1,0 +1,38 @@
+use_module(library(yall)).
+print("===TEST START===").
+
+legal_graph(graph([[2, 3], [], [2, 4], [3]])).
+legal_graph(graph([])).
+
+{L}/(
+    findall(
+        X,
+        edge(graph([[2, 3], [], [2, 4], [3]]), X, 3),
+        L1
+    ),
+    msort(L1, L)
+).
+edge(graph([[2, 3], [], [2, 4], [3]]), 2, X).
+
+{L}/(
+    findall(
+        P,
+        path(graph([[2, 3], [], [2, 4], [3]]), 1, 4, P),
+        L1
+    ),
+    msort(L1, L)
+).
+path(graph([[2, 3], [], [2, 4], [3]]), 2, 4, _).
+
+{L}/(
+    findall(
+        P,
+        circle(graph([[2, 3], [], [2, 4], [3]]), P),
+        L1
+    ),
+    msort(L1, L)
+).
+
+dag(graph([[2, 3], [], [2, 4], [3]])).
+dag(graph([[2, 3], [], [2], [3]])).
+

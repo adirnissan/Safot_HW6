@@ -1,0 +1,17 @@
+use_module(library(yall)).
+print("===TEST START===").
+
+pythagorean(3, 4, 5).
+pythagorean(3, 3, 5).
+
+prime(4).
+prime(17).
+
+{L}/(
+    findall(
+        [X, Y],
+        goldbach(X, Y, 20),
+        L1
+    ),
+    msort(L1, L)
+).
