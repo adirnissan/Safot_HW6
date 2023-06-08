@@ -70,7 +70,7 @@ How are these different from the regular comparison operators?
 ```
 <!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
 
-the `#`-operators don't require that any of the variables are instantiated
+The `#`-operators don't require that any of the variables are instantiated
 
 ---
 
@@ -178,9 +178,14 @@ Implement the predicate `change/2`. `change(S, L)` is true iff:
 <!--vert-->
 
 > Hint - you can use a helper predicate `repeat/3`. `repeat(N, C, L)` is true iff:
+> * `N` is a conrete non-negative integer.
+> * `L` is a list of `N` `C`s.
 
-* `N` is a conrete non-negative integer.
-* `L` is a list of `N` `C`s.
+<!--vert-->
+
+> Another Hint - you can use a helper predicate `build/2`. `build(Ls, L)` is true iff:
+> * `Ls` is a list of pairs `[N, C]` where `N` is a concrete non-negative integer.
+> * `L` is a list containing `Ni` `Ci`s, for each `i` in range.
 
 <!--vert-->
 
