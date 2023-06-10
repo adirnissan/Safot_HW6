@@ -232,59 +232,6 @@ cycle(X) :- edge(Y, X), path(X, Y, _, _).
 
 ### question 5
 
-implement `is_prime(X)`, wher `X` is a concrete integer
-
-```prolog
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
-
-<!--vert-->
-
-```prolog
-is_prime(2).
-is_prime(P) :-
-    P > 2, \+ divisible(P,2).  
-
-divisible(N,L) :- N mod L =:= 0.
-divisible(N,L) :-
-    L * L < N, L2 is L + 1, divisible(N,L2).
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
-
-<!--vert-->
-
-Goldbach's conjecture says that every positive even number greater than 2 is the sum of two prime numbers.
-
-<!--vert-->
-
-implement `goldbach/3`.
-
-* `goldbach(A,B,S)` is true if `A+B=S`, `A` and `B` are prime numbers and `S` is an even number.
-
-* either `S` is concrete or `A` and `B` are concrete
-
-<!--vert-->
-
-```prolog
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
-
-<!--vert-->
-
-```prolog
-:- use_module(library(clpfd)).
-goldbach(A,B,S) :-
-	S mod 2 #= 0,
-    A #>= 2, A #< S, A + B #= S , A #=< B,
-    label([A, B, S]),
-    is_prime(A), is_prime(B).
-```
-<!-- .element: data-thebe-executable-prolog data-language="text/x-prolog" -->
-
----
-
-### question 6
-
 how can a knight jump on an NxN chessboard in such a way that it visits every square exactly once?
 
 <!--vert-->
