@@ -24,6 +24,7 @@ if [ -d "$tmpdir" ]
 fi
 mkdir "$tmpdir" &> /dev/null
 
+yes | apt update
 yes | apt install zip &> /dev/null
 
 unzip "$1" -d "$tmpdir" &> /dev/null
