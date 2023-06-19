@@ -1,8 +1,8 @@
 use_module(library(yall)).
 print("===TEST START===").
 
-legal_graph(graph([[2, 3], [], [2, 4], [3]])).
-legal_graph(graph([])).
+once(legal_graph(graph([[2, 3], [], [2, 4], [3]]))).
+once(legal_graph(graph([]))).
 
 {L}/(
     findall(
@@ -12,7 +12,7 @@ legal_graph(graph([])).
     ),
     msort(L1, L)
 ).
-edge(graph([[2, 3], [], [2, 4], [3]]), 2, X).
+once(edge(graph([[2, 3], [], [2, 4], [3]]), 2, X)).
 
 {L}/(
     findall(
@@ -22,7 +22,7 @@ edge(graph([[2, 3], [], [2, 4], [3]]), 2, X).
     ),
     msort(L1, L)
 ).
-path(graph([[2, 3], [], [2, 4], [3]]), 2, 4, _).
+once(path(graph([[2, 3], [], [2, 4], [3]]), 2, 4, _)).
 
 {L}/(
     findall(
@@ -33,6 +33,6 @@ path(graph([[2, 3], [], [2, 4], [3]]), 2, 4, _).
     msort(L1, L)
 ).
 
-dag(graph([[2, 3], [], [2, 4], [3]])).
-dag(graph([[2, 3], [], [2], [3]])).
+once(dag(graph([[2, 3], [], [2, 4], [3]]))).
+once(dag(graph([[2, 3], [], [2], [3]]))).
 

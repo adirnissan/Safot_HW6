@@ -1,11 +1,11 @@
 use_module(library(yall)).
 print("===TEST START===").
 
-pythagorean(3, 4, 5).
-pythagorean(3, 3, 5).
+once(pythagorean(3, 4, 5)).
+once(pythagorean(3, 3, 5)).
 
-prime(4).
-prime(17).
+once(prime(4)).
+once(prime(17)).
 
 {L}/(
     findall(
