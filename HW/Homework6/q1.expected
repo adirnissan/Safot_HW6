@@ -1,0 +1,6 @@
+
+R = s(s(s(bot))).
+
+Res = s(s(bot)).
+
+Res = s(s(s(s(s(s(s(s(s(bot))))))))).
