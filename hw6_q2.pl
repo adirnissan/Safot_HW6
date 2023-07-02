@@ -1,28 +1,106 @@
 :- [hw5_q2].
-:- use_module(library(lists)).
-
+:- use_module(library(clpfd)).
 
 topological_sort(graph(G), S) :- 
     legal_graph(graph(G)), dag(graph(G)),
+    topological_sort_aux(graph(G), [], S).
+
+topological_sort_aux(graph(G), S, S) :- length(G, N), length(S, N), !.
+
+topological_sort_aux(graph(G), SoFarS, S) :-
+    find_source(graph(G), X), 
+    append(SoFarS, [X], SoFarSButBigger),
+    replace_nth1(G, X, [X] ,Gtag),
+    topological_sort_aux(graph(Gtag), SoFarSButBigger, S).
+ 
+ 
+replace_nth1([_|XS], 1 ,NewElem ,[NewElem|XS]) :- !.
+replace_nth1([X|XS], N, NewElem ,[X|YS]) :- N1 is N-1, replace_nth1(XS, N1, NewElem, YS).
+
+find_source(graph(G), X) :-
     length(G, N),
-    topological_sort_aux(G, N, [], S).
+    is_vertex_source(graph(G), N, X).
 
-topological_sort_aux(G, N, S, S) :- repeat(N, [], G), !. 
+is_vertex_source(graph(G), V, V) :- \+ our_edge(graph(G), _, V).
 
-topological_sort_aux(G, N, L, S) :- 
-    nth1(X, G, []), \+ member(X, L), 
-    remove_edges_to_pit(X, G, G1),
-    topological_sort_aux(G1, N, [X|L], S).
+is_vertex_source(graph(G), V, X) :- V > 1 ,V1 is V-1, is_vertex_source(graph(G), V1, X).
 
-remove_edges_to_pit(_, [], []).
+our_edge(graph(G), X, Y) :- nth1(X, G, NeighborsX), member(Y, NeighborsX).
 
-remove_edges_to_pit(Pit, [V|VS], [V1|VS1]) :- 
-    (member(Pit, V) -> del(Pit, V, V1)) ; V1 = V,
-    remove_edges_to_pit(Pit, VS, VS1).
+scc(graph(G), S):-
+    legal_graph(graph(G)),
+    check_strongly_connected_groups(graph(G), S),
+    check_max_components(graph(G), S),
+    check_valid_partition(graph(G), S).
 
-repeat(0, _, []).   
+/* check_strongly_connected_groups  */
 
-repeat(N, X, [X|XS]) :- N1 is N - 1, repeat(N1, X, XS).
+check_strongly_connected_groups(graph(_), []).
 
-del(X, [X|XS], XS).
-del(X, [Y|YS], [Y|ZS]) :- del(X, YS, ZS).
+check_strongly_connected_groups(graph(G), [C|CS]) :- 
+    check_strongly_connected_group(graph(G), C),
+    check_strongly_connected_groups(graph(G), CS).
+
+check_strongly_connected_group(graph(_), []).
+
+check_strongly_connected_group(graph(G), [V|VS]) :-
+    check_vertex_connected_to_all(graph(G), V, VS),
+    check_strongly_connected_group(graph(G), VS).
+
+check_vertex_connected_to_all(graph(_), _, []).
+
+check_vertex_connected_to_all(graph(G), V, [U|US]) :-
+    path(graph(G), V, U, _),
+    path(graph(G), U, V, _),
+    check_vertex_connected_to_all(graph(G), V, US).
+
+/* check_max_components */
+
+check_max_components(graph(_), []).
+
+check_max_components(graph(G), [C|CS]) :- 
+    check_max_component(graph(G), C),
+    check_max_components(graph(G), CS).
+
+check_max_component(graph(G), C) :-
+    length(G, N),
+    check_cant_add_vertex(graph(G), N, C).
+
+check_cant_add_vertex(graph(_), 0, _) :- !.
+
+check_cant_add_vertex(graph(G), V, C) :-
+    member(V, C),
+    V1 is V-1,
+    check_cant_add_vertex(graph(G), V1, C), !.
+
+check_cant_add_vertex(graph(G), V, C) :-
+    \+ check_vertex_connected_to_all(graph(G), V, C),
+    V1 is V-1,
+    check_cant_add_vertex(graph(G), V1, C).
+
+/* check_valid_partition */
+
+check_valid_partition(graph(G), P) :-
+    length(G, N),
+    check_vertex_in_partition(N, P).
+
+check_vertex_in_partition(0, _) :- !. 
+
+check_vertex_in_partition(V, P) :- 
+    member(C, P),
+    member(V, C),
+    V1 is V-1,
+    check_vertex_in_partition(V1, P).
+
+
+
+    
+
+
+
+
+
+     
+
+    
+    
