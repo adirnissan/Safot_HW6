@@ -54,8 +54,7 @@ check_strongly_connected_groups(graph(G), [C|CS]) :-
     check_strongly_connected_group(graph(G), C),
     check_strongly_connected_groups(graph(G), CS).
 
-check_strongly_connected_group(graph(G), [V]) :- 
-    check_vertex_connected_to_all(graph(G), V, []), !.
+check_strongly_connected_group(graph(G), [V]) :- !.
 
 check_strongly_connected_group(graph(G), [V|VS]) :-
     check_vertex_connected_to_all(graph(G), V, VS),

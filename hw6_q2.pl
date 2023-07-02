@@ -1,6 +1,7 @@
 :- [hw5_q2].
 :- use_module(library(clpfd)).
 
+
 topological_sort(graph(G), S) :- 
     legal_graph(graph(G)), dag(graph(G)),
     topological_sort_aux(graph(G), [], S).
