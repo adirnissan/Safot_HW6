@@ -35,10 +35,10 @@ list_up_to(1, [1]) :- !.
 list_up_to(N, L) :- N1 is N-1, list_up_to(N1, L1), append(L1, [N], L).
 
 scc(graph(G), S) :- 
-    legal_graph(graph(G)), 
-    legal_partition(graph(G), S),
+    legal_graph(graph(G)),
     check_strongly_connected_groups(graph(G), S),
-    check_max_components(graph(G), S).
+    check_max_components(graph(G), S),
+    legal_partition(graph(G), S).
     
 legal_partition(graph(G), S) :- 
     length(G, N),
